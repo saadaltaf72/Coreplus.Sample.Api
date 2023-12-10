@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<PractitionerService>();
+builder.Services.AddSingleton<AppointmentService>();
 
 builder.Services.AddCors(options =>
 {
