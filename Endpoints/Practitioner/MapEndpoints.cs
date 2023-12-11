@@ -11,6 +11,7 @@ public static class MapEndpoints
         group.MapGetSupervisorPractitioners();
         group.MapGetAllAppointments();
         group.MapGetAppointmentsReport();
+        group.MapGetAppointmentsByPracId();
         return group;
     }
 }

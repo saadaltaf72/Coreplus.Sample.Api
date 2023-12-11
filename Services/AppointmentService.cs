@@ -78,5 +78,48 @@ public class AppointmentService
 
         return report;
     }
+    public async Task<IEnumerable<AppointmentDto>> GetAppointmentsByPracId(long id, DateTime? startDate, DateTime? endDate)
+    {
+      
+        var appointments = await GetAppointments();
+        var filteredAppointments = appointments;
+
+        if (appointments == null)
+        {
+            throw new Exception("Data read error in Appointments");
+        }
+        else
+        {
+            if (id>0)
+            {
+                filteredAppointments = filteredAppointments
+                    .Where(app => app.practitioner_id == id);
+            }
+
+            if (startDate.HasValue)
+            {
+                filteredAppointments = filteredAppointments
+                    .Where(app => DateTime.Parse(app.date) >= startDate.Value);
+            }
+
+            if (endDate.HasValue)
+            {
+                filteredAppointments = filteredAppointments
+                    .Where(app => DateTime.Parse(app.date) <= endDate.Value);
+            }
+        }
+       
+
+        return filteredAppointments.Select(app => new AppointmentDto(
+                 app.id,
+                 app.date,
+                 app.client_name,
+                 app.appointment_type,
+                 app.duration,
+                 app.revenue,
+                 app.practitioner_id,
+                 app.practitioner_name
+             ));
+    }
 
 }
